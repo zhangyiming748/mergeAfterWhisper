@@ -1,0 +1,2 @@
+# mergeAfterWhisper
+使用Nvidia硬件加速合并处理好的硬字幕
