@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  merge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: merge-image
+    volumes:
+      - /path/to/your/files:/videos
+    # command: ["./merge"] # 如果你已经在 Dockerfile 中设置了 CMD，这行可以省略
+    # command: ["./merge", "arg1", "arg2"] # 如果你的程序需要参数，可以在这里添加
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1 # 或者 all, 取决于你的需求
+              capabilities: [gpu]

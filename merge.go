@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	mp4 := "C:\\Users\\zen\\Github\\MultimediaProcessingPipeline\\test\\Impregnation, No Strings Attached [674e2d97be0f7].mp4"
-	srt := "C:\\Users\\zen\\Github\\MultimediaProcessingPipeline\\test\\Impregnation, No Strings Attached [674e2d97be0f7].srt"
+	mp4 := "Impregnation, No Strings Attached [674e2d97be0f7].mp4"
+	srt := "Impregnation, No Strings Attached [674e2d97be0f7].srt"
 	Mp4Inside(mp4, srt)
 }
 func Mp4Inside(mp4, srt string) string {
