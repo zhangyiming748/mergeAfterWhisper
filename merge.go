@@ -26,8 +26,8 @@ func main() {
 		Mp4Inside(mp4, srt)
 	}
 }
-func Mp4Inside(mp4, srt string) string {
 
+func Mp4Inside(mp4, srt string) string {
 	//ffmpeg -i input.mp4 -vf "subtitles=subtitle.srt" output.mp4
 	output := strings.Replace(mp4, filepath.Ext(mp4), "_subInside.mp4", -1)
 	//ff := fmt.Sprintf("ffmpeg -i \"%s\" -vf \"subtitles='%s'\" -c:v h264_nvenc -c:a libmp3lame -ac 1 -map_chapters -1 \"%s\"", baseMp4, baseSrt, output)
@@ -35,10 +35,11 @@ func Mp4Inside(mp4, srt string) string {
 	log.Printf("cmd is %s\n", cmd.String())
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Printf("ffmpeg执行失败:%s\n", string(out))
+		log.Printf("ffmpeg%s执行失败:%s\n", cmd.String(), string(out))
 	}
 	return output
 }
+
 func FindAllFiles(dirPath string) ([]string, error) {
 	var files []string
 	err := filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
@@ -59,6 +60,7 @@ func FindAllFiles(dirPath string) ([]string, error) {
 	})
 	return files, err
 }
+
 func isExist(path string) bool {
 	_, err := os.Stat(path)
 	if err != nil {
