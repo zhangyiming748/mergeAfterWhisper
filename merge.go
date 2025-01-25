@@ -36,6 +36,10 @@ func Mp4Inside(mp4, srt string) string {
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Printf("ffmpeg%s执行失败:%s\n", cmd.String(), string(out))
+	} else {
+		log.Printf("ffmpeg%s执行成功\n", cmd.String())
+		os.Remove(mp4)
+		os.Remove(srt)
 	}
 	return output
 }
