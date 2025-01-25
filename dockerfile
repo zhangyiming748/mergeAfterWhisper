@@ -21,7 +21,7 @@ COPY ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources
 # 安装必要的软件包和 Go
 RUN apt update && \
     apt full-upgrade -y && \
-    apt install -y ffmpeg wget && \
+    apt install -y ffmpeg wget fonts-wqy-microhei fonts-wqy-zenhei fonts-noto-cjk && \
     wget -O go.tgz https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go.tgz && \
     rm go.tgz && \
