@@ -38,8 +38,14 @@ func Mp4Inside(mp4, srt string) string {
 		log.Printf("ffmpeg%s执行失败:%s\n", cmd.String(), string(out))
 	} else {
 		log.Printf("ffmpeg%s执行成功\n", cmd.String())
-		os.Remove(mp4)
-		os.Remove(srt)
+		err = os.Remove(mp4)
+		if err != nil {
+			log.Printf("删除mp4文件失败:%s\n", err)
+		}
+		err = os.Remove(srt)
+		if err != nil {
+			log.Printf("删除srt文件失败:%s\n", err)
+		}
 	}
 	return output
 }
@@ -52,6 +58,7 @@ func FindAllFiles(dirPath string) ([]string, error) {
 		}
 		if !d.IsDir() {
 			f, _ := os.Open(path)
+			defer f.Close()
 			head := make([]byte, 261)
 			f.Read(head)
 			if filetype.IsVideo(head) {
