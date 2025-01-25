@@ -1,12 +1,16 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"io/fs"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/h2non/filetype"
 )
@@ -33,7 +37,32 @@ func Mp4Inside(mp4, srt string) string {
 	//ff := fmt.Sprintf("ffmpeg -i \"%s\" -vf \"subtitles='%s'\" -c:v h264_nvenc -c:a libmp3lame -ac 1 -map_chapters -1 \"%s\"", baseMp4, baseSrt, output)
 	cmd := exec.Command("ffmpeg", "-i", mp4, "-vf", "subtitles='"+srt+"'", "-c:v", "h264_nvenc", "-c:a", "libmp3lame", "-ac", "1", "-map_chapters", "-1", output)
 	log.Printf("cmd is %s\n", cmd.String())
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	// 使用 context 来控制协程的生命周期
+	ctx, cancel := context.WithCancel(context.Background())
+
+	// 协程循环打印
+	go func() {
+		defer wg.Done()
+		for {
+			select {
+			case <-time.After(time.Second):
+				fmt.Println("等待 ffmpeg 处理...")
+			case <-ctx.Done(): // 当 context 被取消时，退出循环
+				return
+			}
+		}
+	}()
+
 	out, err := cmd.CombinedOutput()
+
+	// 取消 context，通知协程退出
+	cancel()
+	wg.Wait()
+
 	if err != nil {
 		log.Printf("ffmpeg%s执行失败:%s\n", cmd.String(), string(out))
 	} else {
