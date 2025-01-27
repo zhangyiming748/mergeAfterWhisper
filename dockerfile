@@ -14,15 +14,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 # 来自神秘东方的代码
 COPY ubuntu.sources /etc/apt/sources.list.d/ubuntu.sources
 
-# 安装必要的软件包和 Go
+# 安装必要的软件包
 RUN apt update && \
     apt full-upgrade -y && \
     apt install -y ffmpeg wget fonts-wqy-microhei fonts-wqy-zenhei fonts-noto-cjk \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 复制项目源代码
-WORKDIR ${GOPATH}/src/app
+# 复制项目
 COPY --from=builder /usr/bin/merge /usr/bin/merge
 WORKDIR /videos
+
 # 定义入口点
 CMD ["/usr/bin/merge"]
