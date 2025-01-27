@@ -52,6 +52,7 @@ func Mp4Inside(mp4, srt string) string {
 			case <-time.After(time.Second):
 				fmt.Println("等待 ffmpeg 处理...")
 			case <-ctx.Done(): // 当 context 被取消时，退出循环
+				fmt.Println("当前 ffmpeg 处理完成")
 				return
 			}
 		}

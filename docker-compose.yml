@@ -4,7 +4,7 @@ services:
     container_name: cuda
     volumes:
       - ./:/data
-      - ./videos:/videos
+      - C:\Users\zen\Github\MultimediaProcessingPipeline\test:/videos
     deploy:
       resources:
         reservations:
